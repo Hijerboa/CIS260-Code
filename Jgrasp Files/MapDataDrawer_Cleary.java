@@ -7,7 +7,7 @@ public class MapDataDrawer_Cleary
 
   private int[][] grid;
 
-  public void MapDataDrawer(String filename, int rows, int cols){
+  public MapDataDrawer_Cleary(String filename, int rows, int cols){
       // initialize grid 
       grid = new int[rows][cols];
       
@@ -76,7 +76,13 @@ public class MapDataDrawer_Cleary
       }
    }
    public int indexOfMinRow(int col){
-      return 1;
+      int min = grid[col][0];
+      for(int i=0; i<480; i++){
+         if(grid[col][i] < min){
+            min = grid[col][i];
+         }
+      }
+      return min;
    }
 
 
