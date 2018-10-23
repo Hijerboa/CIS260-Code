@@ -19,7 +19,7 @@ public class Driver
          int max = map.findMaxValue();
          System.out.println("Max value in map: "+max);
          
-         int minRow = map.indexOfMinInCol(0);
+         int minRow = map.indexOfMinRow(0);
          System.out.println("Row with lowest val in col 0: "+minRow);
          
          //Test Step 3 - draw the map

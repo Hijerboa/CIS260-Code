@@ -75,6 +75,9 @@ public class MapDataDrawer_Cleary
          }
       }
    }
+   public int indexOfMinRow(int col){
+      return 1;
+   }
 
 
    private int minOfThree(int a, int b, int c) {
@@ -83,7 +86,4 @@ public class MapDataDrawer_Cleary
       if ((c > a) && (c > b)) return c;
       return 0;
    }
-  
-  
-  
 }
