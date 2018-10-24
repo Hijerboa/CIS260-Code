@@ -2,6 +2,7 @@ import java.util.*;
 import java.io.*;
 import java.awt.*;
 
+
 public class MapDataDrawer_Cleary
 {
 
@@ -31,9 +32,10 @@ public class MapDataDrawer_Cleary
    */
   public int findMinValue() {
      int min = Integer.MAX_VALUE;
-      // IMPLEMENT THE REST OF THIS METHOD
+      //Increment through each value in grid
       for(int i=0;i<480;i++){
          for(int j=0;j<480;j++){
+         //If its less than the current value of min, set min equal to that number
             if(grid[i][j] < min){
                min = grid[i][j];
             }
@@ -47,9 +49,10 @@ public class MapDataDrawer_Cleary
   public int findMaxValue(){
      int max = Integer.MIN_VALUE;
      
-     // IMPLEMENT THE REST OF THIS METHOD
+     // Increment through each value in grid
       for(int i=0;i<480;i++){
          for(int j=0;j<480;j++){
+         //If its greater than the current value of max, set max equal to that number
             if(grid[i][j] > max){
                max = grid[i][j];
             }
@@ -64,25 +67,37 @@ public class MapDataDrawer_Cleary
    * Colors should be grayscale values 0-255, scaled based on min/max values in grid
    */
   public void drawMap(Graphics g){
+      //System.out.println("hi");
       int min = findMinValue();
       int max = findMaxValue();
       
       for (int i=0; i<480; i++) {
          for (int j=0; j<480; j++) {
-            int c = 1;// calculated grayscale value FILL THIS IN
+            int difference = (max - min);
+            //System.out.println(difference);
+            int ratio = 255/difference;
+            //System.out.println(ratio);
+            int c = (grid[i][j]-min)*(255/differenc);
             g.setColor(new Color(c, c, c));
             g.fillRect(j, i, 1, 1);
          }
       }
    }
    public int indexOfMinRow(int col){
+      //initialize min with the first value in the given column
       int min = grid[col][0];
+      //initialize index as the first column
+      int indexOfMin = 0;
+      //increment through each row in the gvien column 
       for(int i=0; i<480; i++){
+         //if the value in that location is less than the current min...
          if(grid[col][i] < min){
+            //set min equal to that value and then set the index equal to the current row
             min = grid[col][i];
+            indexOfMin = i;
          }
       }
-      return min;
+      return indexOfMin;
    }
 
 
@@ -93,3 +108,4 @@ public class MapDataDrawer_Cleary
       return 0;
    }
 }
+
