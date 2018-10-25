@@ -67,17 +67,20 @@ public class MapDataDrawer_Cleary
    * Colors should be grayscale values 0-255, scaled based on min/max values in grid
    */
   public void drawMap(Graphics g){
-      //System.out.println("hi");
+      //Initialize min and max
       int min = findMinValue();
       int max = findMaxValue();
-      
+      //Increment through each value in grid
       for (int i=0; i<480; i++) {
          for (int j=0; j<480; j++) {
+            //find a ratio of the difference between the min and max in relation to 256
             int difference = (max - min);
-            //System.out.println(difference);
-            int ratio = 255/difference;
-            //System.out.println(ratio);
-            int c = (grid[i][j]-min)*(255/differenc);
+            int ratio = difference/256;
+            ratio++;
+            //subtract min from the value
+            int anotherNum = grid[i][j]-min;
+            //divide the value by the ratio to get a value for c
+            int c = anotherNum/ratio;
             g.setColor(new Color(c, c, c));
             g.fillRect(j, i, 1, 1);
          }
