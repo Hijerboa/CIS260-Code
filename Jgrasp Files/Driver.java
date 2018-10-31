@@ -24,9 +24,7 @@ public class Driver
          
          //Test Step 3 - draw the map
          map.drawMap(g);
-                  
-        
+         g.setColor(new Color(255, 0, 0));
+         System.out.println("Elev change = " + map.drawLowestElevPath(g, minRow));
     }
-
-
 }

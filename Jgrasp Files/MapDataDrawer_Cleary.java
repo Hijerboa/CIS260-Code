@@ -88,26 +88,34 @@ public class MapDataDrawer_Cleary
    }
    public int indexOfMinRow(int col){
       //initialize min with the first value in the given column
-      int min = grid[col][0];
+      int min = grid[0][col];
       //initialize index as the first column
       int indexOfMin = 0;
       //increment through each row in the gvien column 
       for(int i=0; i<480; i++){
          //if the value in that location is less than the current min...
-         if(grid[col][i] < min){
+         if(grid[i][col] < min){
             //set min equal to that value and then set the index equal to the current row
-            min = grid[col][i];
+            min = grid[i][col];
             indexOfMin = i;
          }
       }
       return indexOfMin;
    }
-
-
+    /**
+      * Find a path from West-to-East starting at given row.
+      * Choose a foward step out of 3 possible forward locations, using greedy method described in assignment.
+      * @return the total change in elevation traveled from West-to-East
+      */
+  public int drawLowestElevPath(Graphics g, int row){
+    int elevChange = 0;
+      // Implement this method
+      return elevChange;
+  }
    private int minOfThree(int a, int b, int c) {
-      if ((a > b) && (a > c)) return a;
-      if ((b > a) && (b > c)) return b;
-      if ((c > a) && (c > b)) return c;
+      if ((a < b) && (a < c)) return a;
+      if ((b < a) && (b < c)) return b;
+      if ((c < a) && (c < b)) return c;
       return 0;
    }
 }
