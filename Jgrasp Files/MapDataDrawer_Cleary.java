@@ -109,9 +109,14 @@ public class MapDataDrawer_Cleary
       */
   public int drawLowestElevPath(Graphics g, int row){
     int elevChange = 0;
-      // Implement this method
+    int currentRow = row; 
+    for(int currentCol = 1; currentCol < 480; currentCol++){
+      System.out.println(minOfThree(grid[currentCol][(row+1)],grid[currentCol][row],grid[currentCol][(row-1)]));
+    }
+      
       return elevChange;
   }
+  
    private int minOfThree(int a, int b, int c) {
       if ((a < b) && (a < c)) return a;
       if ((b < a) && (b < c)) return b;
