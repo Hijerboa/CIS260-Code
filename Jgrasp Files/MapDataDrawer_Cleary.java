@@ -110,17 +110,54 @@ public class MapDataDrawer_Cleary
   public int drawLowestElevPath(Graphics g, int row){
     int elevChange = 0;
     int currentRow = row; 
+    int currentElev = grid[row][0];
+    int addedElev = 0;
+    int pastElev = grid[indexOfMinRow(0)][0];
+    //System.out.println(currentElev);
     for(int currentCol = 1; currentCol < 480; currentCol++){
-      System.out.println(minOfThree(grid[currentCol][(row+1)],grid[currentCol][row],grid[currentCol][(row-1)]));
+      if(minOfThree(grid[(row+1)][currentCol],grid[row][currentCol],grid[(row-1)][currentCol])==1){
+         addedElev = Math.abs(pastElev - grid[(row-1)][currentCol]);
+         elevChange = elevChange + addedElev;
+         pastElev = grid[(row-1)][currentCol];
+         g.setColor(new Color(255, 0, 0));
+         g.fillRect((row-1), currentCol, 1, 1);
+         currentRow--;
+      }else if(minOfThree(grid[(row+1)][currentCol],grid[row][currentCol],grid[(row-1)][currentCol])==2){
+         addedElev = Math.abs(pastElev - grid[(row)][currentCol]);
+         elevChange = elevChange + addedElev;
+         pastElev = grid[(row)][currentCol];
+         g.setColor(new Color(255, 0, 0));
+         g.fillRect((row), currentCol, 1, 1);
+      }else if(minOfThree(grid[(row+1)][currentCol],grid[row][currentCol],grid[(row-1)][currentCol])==3){
+         addedElev = Math.abs(pastElev - grid[(row+1)][currentCol]);
+         elevChange = elevChange + addedElev;
+         pastElev = grid[(row+1)][currentCol];
+         g.setColor(new Color(255, 0, 0));
+         g.fillRect((row+1), currentCol, 1, 1);
+         currentRow++;
+      }else if(minOfThree(grid[(row+1)][currentCol],grid[row][currentCol],grid[(row-1)][currentCol])==0){
+       System.out.println("you fucked up");  
+      }
     }
       
       return elevChange;
   }
   
    private int minOfThree(int a, int b, int c) {
-      if ((a < b) && (a < c)) return a;
-      if ((b < a) && (b < c)) return b;
-      if ((c < a) && (c < b)) return c;
+      if ((a < b) && (a < c)) return 1;
+      if ((b < a) && (b < c)) return 2;
+      if ((c < a) && (c < b)) return 3;
+      Random rando = new Random();
+      int randoNum = rando.nextInt(1);
+      if(randoNum == 0){
+         if(a == b) return 1;
+         if(b == a) return 2;
+         if(c == a) return 3;
+      }else if(randoNum == 1){
+         if(a == b) return 2;
+         if(b == a) return 3;
+         if(c == a) return 1;
+      }
       return 0;
    }
 }
