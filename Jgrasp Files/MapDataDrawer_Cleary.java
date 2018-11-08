@@ -5,13 +5,10 @@ import java.awt.*;
 
 public class MapDataDrawer_Cleary
 {
-
   private int[][] grid;
-
   public MapDataDrawer_Cleary(String filename, int rows, int cols){
       // initialize grid 
       grid = new int[rows][cols];
-      
       //read the data from the file into the grid
       File dataFile = new File(filename);
       try {
@@ -19,10 +16,8 @@ public class MapDataDrawer_Cleary
          for (int i=0; i<rows; i++) {
             for (int j=0; j<cols;j++) {
                grid[i][j] = dataInput.nextInt();
-            
             }
          }
-         
       } catch (Exception e) { e.printStackTrace();}
 
   }
@@ -107,58 +102,66 @@ public class MapDataDrawer_Cleary
       * Choose a foward step out of 3 possible forward locations, using greedy method described in assignment.
       * @return the total change in elevation traveled from West-to-East
       */
-  public int drawLowestElevPath(Graphics g, int row){
-    int elevChange = 0;
-    int currentRow = row; 
-    int currentElev = grid[row][0];
-    int addedElev = 0;
-    int pastElev = grid[indexOfMinRow(0)][0];
-    //System.out.println(currentElev);
-    for(int currentCol = 1; currentCol < 480; currentCol++){
-      if(minOfThree(grid[(row+1)][currentCol],grid[row][currentCol],grid[(row-1)][currentCol])==1){
-         addedElev = Math.abs(pastElev - grid[(row-1)][currentCol]);
-         elevChange = elevChange + addedElev;
-         pastElev = grid[(row-1)][currentCol];
-         g.setColor(new Color(255, 0, 0));
-         g.fillRect((row-1), currentCol, 1, 1);
-         currentRow--;
-      }else if(minOfThree(grid[(row+1)][currentCol],grid[row][currentCol],grid[(row-1)][currentCol])==2){
-         addedElev = Math.abs(pastElev - grid[(row)][currentCol]);
-         elevChange = elevChange + addedElev;
-         pastElev = grid[(row)][currentCol];
-         g.setColor(new Color(255, 0, 0));
-         g.fillRect((row), currentCol, 1, 1);
-      }else if(minOfThree(grid[(row+1)][currentCol],grid[row][currentCol],grid[(row-1)][currentCol])==3){
-         addedElev = Math.abs(pastElev - grid[(row+1)][currentCol]);
-         elevChange = elevChange + addedElev;
-         pastElev = grid[(row+1)][currentCol];
-         g.setColor(new Color(255, 0, 0));
-         g.fillRect((row+1), currentCol, 1, 1);
-         currentRow++;
-      }else if(minOfThree(grid[(row+1)][currentCol],grid[row][currentCol],grid[(row-1)][currentCol])==0){
-       System.out.println("you fucked up");  
-      }
-    }
-      
-      return elevChange;
+    public int drawLowestElevPath(Graphics g, int row){
+      //intialize necessary variables
+       int elevChange = 0;
+       int currentRow = row; 
+       int currentElev = grid[row][0];
+       int addedElev = 0;
+       int pastElev = grid[indexOfMinRow(0)][0];
+       //set int first dot as red
+       g.setColor(new Color(255, 0, 0));
+       g.fillRect(0,indexOfMinRow(0),1,1);
+       int result = 4;
+       //increment through each coloumn
+       for(int currentCol = 1; currentCol < 480; currentCol++){
+         //call min function of the three differences
+         result = minOfThree(Math.abs(grid[(row+1)][currentCol]-pastElev), Math.abs(grid[row][currentCol]-pastElev), Math.abs(grid[(row-1)][currentCol]-pastElev));
+         //if upper row is best option:
+         if(result == 1){
+            //find the elevation change then fill in rectangle
+            addedElev = Math.abs(grid[(row+1)][currentCol]-pastElev);
+            elevChange = elevChange + addedElev;
+            row++;
+            pastElev = grid[row][currentCol];
+            g.fillRect(currentCol,row,1,1);
+           //if middle is best option
+         }else if(result == 2){
+            addedElev = Math.abs(grid[(row)][currentCol]-pastElev);
+            elevChange = elevChange + addedElev;
+            pastElev = grid[row][currentCol];
+            g.fillRect(currentCol,row,1,1);
+         }else if(result == 3){
+            //if lower is best option
+            addedElev = Math.abs(grid[(row-1)][currentCol]-pastElev);
+            elevChange = elevChange + addedElev;
+            row--;
+            pastElev = grid[row][currentCol];
+            g.fillRect(currentCol,row,1,1);
+         }
+       }
+       //return the level of change
+       return elevChange;
   }
   
    private int minOfThree(int a, int b, int c) {
+      //if one is smallest, return that
       if ((a < b) && (a < c)) return 1;
       if ((b < a) && (b < c)) return 2;
       if ((c < a) && (c < b)) return 3;
+      //if the middle is the same as one of the others, then use that
+      if ((b==a) || (b==c)) return 2;
+      //else makea a random number, and return either one or twos
       Random rando = new Random();
-      int randoNum = rando.nextInt(1);
-      if(randoNum == 0){
-         if(a == b) return 1;
-         if(b == a) return 2;
-         if(c == a) return 3;
-      }else if(randoNum == 1){
-         if(a == b) return 2;
-         if(b == a) return 3;
-         if(c == a) return 1;
+      int randoNum = rando.nextInt(2);
+      if(a == c){
+         if(randoNum == 0){
+            return 1;
+         }else if(randoNum == 1){
+            return 3;
+         }
       }
       return 0;
    }
-}
+  }
 
